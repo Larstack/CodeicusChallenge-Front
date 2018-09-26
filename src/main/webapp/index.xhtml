@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/include/template.xhtml">
+	<ui:define name="head">
+	</ui:define>
+	<ui:define name="body">
+
+		<p:tabView dynamic="true" cache="true" effect="fold">
+			<p:tab title="Listar Tareas">
+				<h:panelGrid columns="2" cellpadding="10">
+						<p:dataTable var="tarea" value="#{tareaView.tareas}">
+							<p:column headerText="Id">
+								<h:outputText value="#{tarea.id}" />
+							</p:column>
+
+							<p:column headerText="Titulo">
+								<h:outputText value="#{tarea.titulo}" />
+							</p:column>
+
+							<p:column>
+								<p:commandLink update=":tareaDetail"
+									oncomplete="PF('tareaDialog').show()" title="Detalle Tarea">
+									<h:outputText styleClass="ui-icon ui-icon-search"
+										style="margin:0 auto;" />
+									<f:setPropertyActionListener value="#{tarea}"
+										target="#{tareaView.tareaSelected}" />
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="Alta de Tarea">
+				<h:panelGrid columns="2" cellpadding="10">
+				</h:panelGrid>
+			</p:tab>
+		</p:tabView>
+
+ <p:dialog header="Detalle Tarea" widgetVar="tareaDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="tareaDetail" style="text-align:center;">
+            <p:panelGrid  columns="2" rendered="#{not empty tareaView.tareaSelected}" columnClasses="label,value">
+ 
+                <h:outputText value="Id:" />
+                <h:outputText value="#{tareaView.tareaSelected.id}" />
+ 
+                <h:outputText value="Titulo:" />
+                <h:outputText value="#{tareaView.tareaSelected.titulo}" />
+ 
+ 				<h:outputText value="Titulo:" />
+                <h:outputText value="#{tareaView.tareaSelected.descripcion}" />
+                
+                <h:outputText value="Urgente:" />
+                <h:outputText value="#{tareaView.tareaSelected.esUrgente}"/>
+ 
+                <h:outputText value="Fecha Alta" />
+                <h:outputText value="$#{tareaView.tareaSelected.fechaAlta}" />
+                
+                <h:outputText value="Fecha estimada de finalizacion" />
+                <h:outputText value="$#{tareaView.tareaSelected.fechaEstimadaFinalizacion}" />
+                
+                <h:outputText value="Fecha finalizacion" />
+                <h:outputText value="$#{tareaView.tareaSelected.fechaFinalizacion}" />
+				
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+    
+	</ui:define>
+
+</ui:composition>
+<h:body>
+
+
+</h:body>
+</html>
