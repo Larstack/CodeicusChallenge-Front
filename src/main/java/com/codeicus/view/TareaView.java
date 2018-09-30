@@ -1,16 +1,22 @@
 package com.codeicus.view;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.codeicus.model.Tarea;
-import com.codeicus.service.TareaService;
+import com.codeicus.model.dto.Tarea;
+import com.codeicus.service.interfaces.TareaService;
 
 @ManagedBean
 @Named("tareaView")
@@ -29,9 +35,33 @@ public class TareaView implements Serializable {
     @PostConstruct
     public void init() {
     	
-    	tareas = service.loadTareas();
+    	tareas = service.findAll();
     }
 	
+    public void update(ActionEvent evt) {
+    	
+    	try {
+    		
+    		this.service.update(tareaSelected);
+        	this.addMessageOk("Update realizado con exito!");
+        	
+    	}catch(Exception e) {
+    		
+    		this.addMessageOk("Error al realizar el update.");
+    	}
+    	
+    }
+    
+    public void addMessageOk(String mex) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, mex,  null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    public void addMessageError(String mex) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, mex,  null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
 	public String getTitulo() {
 		return titulo;
 	}
