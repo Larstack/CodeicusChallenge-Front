@@ -1,2 +1,8 @@
-/home/larstack/workspace/eclipse-workspace/CodeicusTareasFront/src/main/java/com/codeicus/form/TareaForm.java
-/home/larstack/workspace/eclipse-workspace/CodeicusTareasFront/src/main/java/com/codeicus/controller/TareaController.java
+/home/larstack/workspace/eclipse-workspace/CodeicusTareasFront/src/main/java/com/codeicus/model/dto/Tarea.java
+/home/larstack/workspace/eclipse-workspace/CodeicusTareasFront/src/main/java/com/codeicus/exception/TareaException.java
+/home/larstack/workspace/eclipse-workspace/CodeicusTareasFront/src/main/java/com/codeicus/service/TareaServiceImpl.java
+/home/larstack/workspace/eclipse-workspace/CodeicusTareasFront/src/main/java/com/codeicus/model/dao/TareaDao.java
+/home/larstack/workspace/eclipse-workspace/CodeicusTareasFront/src/main/java/com/codeicus/util/GsonDateAdapter.java
+/home/larstack/workspace/eclipse-workspace/CodeicusTareasFront/src/main/java/com/codeicus/view/TareaView.java
+/home/larstack/workspace/eclipse-workspace/CodeicusTareasFront/src/main/java/com/codeicus/model/dao/impl/TareaDaoImpl.java
+/home/larstack/workspace/eclipse-workspace/CodeicusTareasFront/src/main/java/com/codeicus/service/interfaces/TareaService.java

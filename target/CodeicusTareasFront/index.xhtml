@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/include/template.xhtml">
+	<ui:define name="head">
+	</ui:define>
+	<ui:define name="body">
+
+		<p:tabView id="tabview" dynamic="true" cache="true" effect="fold"
+			activeIndex="#{tareaView.activeTab}">
+			<p:tab title="Listar Tareas">
+				<h:form id="tareasList">
+					<h:panelGrid cellpadding="5" columns="1" styleClass="ui-noborder">
+						<p:dataTable var="tarea" value="#{tareaView.tareas}"
+							widgetVar="dataTableTareas" id="dataTableTareasId">
+							<p:column headerText="Id">
+								<p:outputLabel value="#{tarea.id}" />
+							</p:column>
+
+							<p:column headerText="Titulo">
+								<p:outputLabel value="#{tarea.titulo}" />
+							</p:column>
+
+							<p:column>
+								<h:panelGrid columns="2" styleClass="ui-noborder">
+									<p:commandLink update="detalleTarea"
+										oncomplete="PF('tareaDialog').show()" title="Detalle Tarea">
+										<p:outputLabel styleClass="ui-icon ui-icon-search"
+											style="margin:0 auto;" />
+										<f:setPropertyActionListener value="#{tarea}"
+											target="#{tareaView.tareaSelected}" />
+									</p:commandLink>
+									<p:commandLink update="dataTableTareasId"
+										onstart="PF('removeTareaDialog').show()"
+										title="Borrar Tarea" actionListener="#{tareaView.delete}">
+										<p:outputLabel styleClass="ui-icon ui-icon-closethick"
+											style="margin:0 auto;" />
+											<f:setPropertyActionListener value="#{tarea}"
+											target="#{tareaView.deleteTareaSelected}" />
+										<p:confirm header="Confirmar"
+											message="Estas seguro de querer borrar la tarea?"
+											icon="ui-icon-alert" />
+									</p:commandLink>
+								</h:panelGrid>
+							</p:column>
+						</p:dataTable>
+					</h:panelGrid>
+				</h:form>
+			</p:tab>
+			<p:tab title="Alta de Tarea">
+				<h:form id="altaTarea">
+					<p:growl autoUpdate="true" id="growl" life="2000" />
+					<p:panelGrid styleClass="ui-noborder" cellpadding="5" columns="2">
+
+						<p:outputLabel value="Titulo:" for="tituloNuevaTarea" />
+						<p:inputText id="tituloNuevaTarea"
+							value="#{tareaView.nuevaTarea.titulo}" required="true" />
+
+						<p:outputLabel value="Descripcion:" for="descripcionNuevaTarea" />
+						<p:inputText value="#{tareaView.nuevaTarea.descripcion}"
+							required="true" id="descripcionNuevaTarea" />
+
+						<p:outputLabel value="Es urgente:" for="esUrgenteNuevaTarea" />
+						<p:inputText value="#{tareaView.nuevaTarea.esUrgente}"
+							required="true" id="esUrgenteNuevaTarea" />
+
+						<p:outputLabel value="Fecha estimada de finalizacion"
+							for="fechaEstimadaNuevaTarea" />
+						<p:calendar required="true"
+							value="#{tareaView.nuevaTarea.fechaEstimadaFinalizacion}"
+							showOn="button" id="fechaEstimadaNuevaTarea" />
+					</p:panelGrid>
+					<p:commandButton
+						update="tabview:tareasList:dataTableTareasId tabview"
+						style="float:right;" value="Crear Tarea" id="createAjax"
+						actionListener="#{tareaView.create}"
+						styleClass="ui-priority-primary">
+					</p:commandButton>
+				</h:form>
+			</p:tab>
+		</p:tabView>
+
+			<p:confirmDialog widgetVar="removeTareaDialog" global="true"
+				showEffect="fade" hideEffect="fade">
+				<h:form>
+					<p:commandButton value="Si" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+						 />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</h:form>
+			</p:confirmDialog>
+
+		<p:dialog header="Detalle Tarea" widgetVar="tareaDialog" modal="true"
+			showEffect="fade" hideEffect="fade" resizable="false">
+			<h:form id="detalleTarea">
+				<p:growl autoUpdate="true" id="growl" life="2000" />
+				<!-- 				<p:outputPanel id="tareaDetail" style="text-align:right;"> -->
+				<p:panelGrid cellpadding="5" columns="2"
+					rendered="#{not empty tareaView.tareaSelected}">
+
+					<p:outputLabel value="Id:" for="idTareaSelected" />
+					<h:outputText value="#{tareaView.tareaSelected.id}"
+						id="idTareaSelected" />
+
+					<p:outputLabel value="Titulo:" for="tituloTareaSelected" />
+					<p:inputText required="true"
+						value="#{tareaView.tareaSelected.titulo}" id="tituloTareaSelected" />
+
+					<p:outputLabel value="Descripcion:" for="descripcionTareaSelected" />
+					<p:inputText required="true"
+						value="#{tareaView.tareaSelected.descripcion}"
+						id="descripcionTareaSelected" />
+
+					<p:outputLabel value="Urgente:" for="urgenteTareaSelected" />
+					<p:inputText required="true"
+						value="#{tareaView.tareaSelected.esUrgente}"
+						id="urgenteTareaSelected" />
+
+					<p:outputLabel value="Fecha Alta" for="fechaAltaTareaSelected" />
+					<h:outputText value="#{tareaView.tareaSelected.fechaAlta}"
+						id="fechaAltaTareaSelected">
+						<f:convertDateTime pattern="yyyy-MM-dd" />
+					</h:outputText>
+
+					<p:outputLabel value="Fecha estimada de finalizacion"
+						for="fechaEstimadaTareaSelected" />
+					<!-- 						<p:inputText -->
+					<!-- 							value="#{tareaView.tareaSelected.fechaEstimadaFinalizacion}"> -->
+					<!-- 							<f:convertDateTime pattern="yyyy-MM-dd" /> -->
+					<!-- 						</p:inputText> -->
+					<p:calendar required="true"
+						value="#{tareaView.tareaSelected.fechaEstimadaFinalizacion}"
+						showOn="button" id="fechaEstimadaTareaSelected" />
+
+					<p:outputLabel value="Fecha finalizacion"
+						for="fechaFinalizacionTareaSelected" />
+					<!-- 						<p:inputText value="#{tareaView.tareaSelected.fechaFinalizacion}"> -->
+					<!-- 							<f:convertDateTime pattern="yyyy-MM-dd" /> -->
+					<!-- 						</p:inputText> -->
+
+					<p:calendar value="#{tareaView.tareaSelected.fechaFinalizacion}"
+						showOn="button" id="fechaFinalizacionTareaSelected" />
+
+				</p:panelGrid>
+				<!-- 				</p:outputPanel> -->
+				<p:commandButton update="tabview:tareasList:dataTableTareasId"
+					style="float:right;" value="Update" id="updateAjax"
+					actionListener="#{tareaView.update}"
+					styleClass="ui-priority-primary">
+				</p:commandButton>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+</ui:composition>
+<h:body>
+
+
+</h:body>
+</html>

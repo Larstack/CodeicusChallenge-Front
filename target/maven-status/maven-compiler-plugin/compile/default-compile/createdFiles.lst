@@ -1,2 +1,9 @@
-com/codeicus/form/TareaForm.class
-com/codeicus/controller/TareaController.class
+com/codeicus/model/dao/impl/TareaDaoImpl$1.class
+com/codeicus/util/GsonDateAdapter.class
+com/codeicus/service/TareaServiceImpl.class
+com/codeicus/model/dao/TareaDao.class
+com/codeicus/model/dao/impl/TareaDaoImpl.class
+com/codeicus/exception/TareaException.class
+com/codeicus/model/dto/Tarea.class
+com/codeicus/view/TareaView.class
+com/codeicus/service/interfaces/TareaService.class
